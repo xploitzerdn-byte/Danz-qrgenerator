@@ -3,128 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator</title>
-    <!-- Menggunakan CDN QRCode.js yang stabil -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>Hacked By ./ZerNism</title>
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: #f0f2f5;
+            background-color: #000;
+            color: #ffffff;
+            font-family: sans-serif, Courier, monospace;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            background-image: radial-gradient(circle, #0d0d0d 10%, #000 100%);
         }
 
         .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
             text-align: center;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
+            max-width: 700px;
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            margin-bottom: 20px;
         }
 
-        input[type="text"]:focus {
-            border-color: #007bff;
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            display: inline-block;
+            border: 1px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            background: #111;
         }
 
-        button {
+        .avatar img {
             width: 100%;
-            padding: 12px;
-            background: #007bff;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            margin-bottom: 7px;
+            letter-spacing: 2px;
+        }
+
+        .quotes {
+            font-size: 10px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .ascii-art {
+            color: #ffffff;
+            font-size: 10px;
+            white-space: pre;
+            margin: 5px 0 15px;
+            line-height: 1.2;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .thanks-box {
+            border-top: 1px dashed #ff0000;
+            border-bottom: 1px dashed #ff0000;
+            padding: 15px;
+            margin-bottom: 25px;
+            background: rgba(15, 0, 0, 0.4);
+        }
+
+        .thanks-title {
+            color: #ff0000;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .thanks-list {
+            font-size: 12px;
+            color: #aaaaaa;
+            word-spacing: 3px;
+            line-height: 1.5;
+        }
+
+        .btn-audio {
+            background: linear-gradient(45deg, #ff0000, #990000);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        #qrcode {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
+            padding: 10px 25px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            display: inline-flex;
             align-items: center;
-            min-height: 200px;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* Memastikan gambar QR code pas di dalam kontainer */
-        #qrcode img {
-            border: 4px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+        .btn-audio:hover {
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .playing {
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            to {
+                transform: scale(1.3);
+                opacity: 1;
+                box-shadow: 0 0 10px #fff;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>QR Code Generator</h2>
-    <input type="text" id="text-input" placeholder="Masukkan teks atau URL di sini...">
-    <button onclick="generateQR()">Buat QR Code</button>
-    
-    <!-- Tempat QR Code akan muncul -->
-    <div id="qrcode"></div>
-</div>
+    <audio id="myMusic"
+        src="https://files.catbox.moe/l2k5xy.mp3"
+        loop></audio>
 
-<script>
-    // Inisialisasi variabel QR global agar bisa di-clear sebelum membuat yang baru
-    let qrcode = null;
+    <div class="container">
 
-    function generateQR() {
-        const input = document.getElementById("text-input").value.trim();
-        const qrContainer = document.getElementById("qrcode");
+        <div class="avatar">
+            <img src="https://files.catbox.moe/tlmcns.jpg" alt="avatar">
+        </div>
 
-        // Validasi jika input kosong
-        if (input === "") {
-            alert("Tolong masukkan teks atau URL terlebih dahulu!");
-            return;
+        <h1>Hacked By ./ZerNism</h1>
+
+        <div class="quotes">
+            “Di negeri yang katanya demokrasi, suara rakyat sering cuma dipakai saat pemilu, lalu dilupakan setelah kursi kekuasaan terisi. Hukum tajam ke bawah, tumpul ke atas. Mereka yang kecil dipaksa patuh, sementara yang punya jabatan bisa membeli keadilan dengan senyuman dan koneksi. Rakyat diminta sabar menghadapi harga naik, lapangan kerja sempit, dan janji yang terus diulang tiap lima tahun. Politik bukan lagi tentang mengabdi, tapi tentang siapa yang paling pandai memainkan citra di depan kamera. Dan ketika rakyat mulai bicara, mereka disebut pembangkang — padahal yang mereka tuntut cuma satu: keadilan yang benar-benar hidup, bukan sekadar slogan di baliho.”
+        </div>
+
+        <div class="ascii-art">
+ _____           _   _ _
+|__  /___ _ __  | \ | (_)
+  / // _ \ '__| |  \| |
+ /|  __/ |    | |\  | |
+/____\___|_|    |_| \_|_|
+        </div>
+
+        <div class="thanks-box">
+            <div class="thanks-title">Thanks To Team:</div>
+
+            <div class="thanks-list">
+                pasko cyber rexor - traser sec team - Tegal cyber team - Cyber caunter attack - fsociety arena -Vyn elite
+            </div>
+        </div>
+
+        <div class="footer-link">
+            <button class="btn-audio" onclick="togglePlay()" id="playBtn">
+                <span class="pulse-dot"></span>
+                [ TAP TO PLAY ]
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const music = document.getElementById("myMusic");
+        const btn = document.getElementById("playBtn");
+
+        function togglePlay() {
+
+            if (music.paused) {
+
+                music.volume = 0.6;
+                music.play();
+
+                btn.innerHTML =
+                    '<span class="pulse-dot playing"></span> MUSIC ON';
+
+            } else {
+
+                music.pause();
+
+                btn.innerHTML =
+                    '<span class="pulse-dot"></span> MUSIC OFF';
+            }
         }
-
-        // Hapus QR code yang lama jika ada
-        qrContainer.innerHTML = "";
-
-        // Buat QR code baru
-        qrcode = new QRCode(qrContainer, {
-            text: input,
-            width: 200,
-            height: 200,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-    }
-</script>
+    </script>
 
 </body>
 </html>
