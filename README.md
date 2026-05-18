@@ -1,0 +1,2 @@
+# Danz-qrgenerator
+QR generator
